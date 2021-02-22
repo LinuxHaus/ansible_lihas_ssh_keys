@@ -1,0 +1,21 @@
+---
+- name: include variables
+  include_role:
+    name: lihas_variables
+  when: configspaces is not defined
+
+- name: init ssh keys active
+  set_fact:
+    ssh_keys_active: "{{ ssh_keys_active | default([]) + hostvars[inventory_hostname][item]['config']['ssh']['keys_active']['keys'] | default([]) }}"
+  loop: "{{ configspaces }}"
+- name: init ssh keys inactive
+  set_fact:
+    ssh_keys_inactive: "{{ ssh_keys_inactive | default([]) + hostvars[inventory_hostname][item]['config']['ssh']['keys_inactive']['keys'] | default([]) }}"
+  loop: "{{ configspaces }}"
+- name: Add keys to authorized_keys
+  authorized_key: "user=root key={{ item }} state=present"
+  loop: "{{ ssh_keys_active }}"
+- name: Remove obsolete keys from authorized_keys
+  authorized_key: "user=root key={{ item }} state=absent"
+  loop: "{{ ssh_keys_inactive }}"
+

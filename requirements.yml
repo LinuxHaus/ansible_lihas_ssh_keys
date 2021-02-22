@@ -1,0 +1,4 @@
+---
+- name: lihas_ssh_keys
+  src: https://github.com/LinuxHaus/ansible_lihas_ssh_keys.git
+  version: origin/main
