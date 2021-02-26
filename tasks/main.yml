@@ -12,6 +12,14 @@
   set_fact:
     ssh_keys_inactive: "{{ ssh_keys_inactive | default([]) + hostvars[inventory_hostname][item]['config']['ssh']['keys_inactive']['keys'] | default([]) }}"
   loop: "{{ configspaces }}"
+- name: show ssh_keys_active
+  debug:
+    var: ssh_keys_active
+    verbosity: 1
+- name: show ssh_keys_inactive
+  debug:
+    var: ssh_keys_active
+    verbosity: 1
 - name: Add keys to authorized_keys
   authorized_key: "user=root key={{ item }} state=present"
   loop: "{{ ssh_keys_active }}"
