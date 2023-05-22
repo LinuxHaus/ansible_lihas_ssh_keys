@@ -1,5 +1,6 @@
 galaxy_info:
   author: Adrian Reyer <lihas@lihas.de>
+  namespace: lihas
   description: deploy new ssh keys and remove old keys
   company: LiHAS - LinuxHaus Stuttgart
 
@@ -16,7 +17,7 @@ galaxy_info:
   # - CC-BY-4.0
   license: GPL-3.0-or-later
 
-  min_ansible_version: 2.10
+  min_ansible_version: "2.10"
 
   platforms:
     - name: Debian

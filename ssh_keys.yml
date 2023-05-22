@@ -1,4 +1,5 @@
 ---
-- hosts: '*'
+- name: Play role lihas_ssh_keys
+  hosts: '*'
   roles:
     - lihas_ssh_keys
