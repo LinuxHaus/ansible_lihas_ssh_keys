@@ -1,4 +1,19 @@
 ---
+- name: Check and set lihas_become
+  block:
+    - name: Lihas_become init
+      ansible.builtin.set_fact:
+        lihas_become: false
+      tags:
+        - always
+    - name: Check if become is necessary
+      ansible.builtin.set_fact:
+        lihas_become: true
+      when: ansible_effective_user_id != 0
+      tags:
+        - always
+  when: lihas_become is not defined
+
 - name: Include variables
   ansible.builtin.include_role:
     name: lihas_variables
@@ -26,10 +41,12 @@
     user: root
     state: present
   loop: "{{ ssh_keys_active }}"
+  become: "{{ lihas_become }}"
 - name: Remove obsolete keys from authorized_keys
   ansible.posix.authorized_key:
     key: "{{ item }}"
     user: root
     state: absent
   loop: "{{ ssh_keys_inactive }}"
+  become: "{{ lihas_become }}"
 ...
